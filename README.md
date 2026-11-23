@@ -1,5 +1,8 @@
 # makefun-news-image-20261123
 
+[![rank](https://make.fun/badge/news-image-20261123/de0x1de/makefun-news-image-20261123/rank.svg)](https://make.fun/bounty/news-image-20261123/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
+[![reward](https://make.fun/badge/news-image-20261123/de0x1de/makefun-news-image-20261123/reward.svg)](https://make.fun/bounty/news-image-20261123?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
+
 Entry for the make.fun news-image-20261123 competition.
 
 `main.ts` copies the bundled newspaper front-page image (`entry.png`,
