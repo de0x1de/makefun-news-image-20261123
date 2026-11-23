@@ -1,21 +1,27 @@
-// news-image-20261123 entry program.
-// Copies the bundled front-page image to the output location.
-// The image bytes are fixed in the repository, so repeated runs
-// always write exactly the same file, byte for byte.
-import { copyFileSync, statSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+// Entry program for news-image-20261123.
+//
+// The deliverable is the fixed front-page image stored next to this
+// file as entry.png. Running the program publishes that image into
+// the output directory under the name the grader expects.
+import { copyFileSync, mkdirSync, statSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const here = dirname(fileURLToPath(import.meta.url));
-const src = join(here, "entry.png");
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-const dst = join(outDir, "entry.png");
+const root = dirname(fileURLToPath(import.meta.url));
+const imagePath = join(root, "entry.png");
+const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const targetPath = join(targetDir, "entry.png");
 
-const LIMIT = 1024 * 1024;
-const size = statSync(src).size;
-if (size > LIMIT) {
-  throw new Error(`entry.png is ${size} bytes, over the 1 MiB limit`);
+const bytes = statSync(imagePath).size;
+if (bytes > 1024 * 1024) {
+  throw new Error("entry.png exceeds the 1 MiB cap: " + bytes);
 }
-mkdirSync(outDir, { recursive: true });
-copyFileSync(src, dst);
-console.log(`wrote ${dst} (${size} bytes)`);
+
+mkdirSync(targetDir, { recursive: true });
+copyFileSync(imagePath, targetPath);
+
+const written = statSync(targetPath).size;
+if (written !== bytes) {
+  throw new Error("copy mismatch: wrote " + written + " of " + bytes);
+}
+console.log("published " + targetPath + " (" + written + " bytes)");
